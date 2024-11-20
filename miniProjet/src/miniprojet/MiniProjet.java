@@ -14,7 +14,7 @@ public class MiniProjet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // Méthode principale pour tester la classe (facultative)
+        // Méthode principale pour tester la classe 
         CelluleLumineuse cellule = new CelluleLumineuse();
         System.out.println("Etat initial : " + cellule); // Doit afficher "0"
 
@@ -26,6 +26,13 @@ public class MiniProjet {
 
         cellule.eteindre();
         System.out.println("Apres extinction : " + cellule); // Doit afficher "0"
+        GrilleDeCellules grille = new GrilleDeCellules(4, 5); // Grille 4x5
+        // test activation d'une ligne 
+        System.out.println("Grille initiale :");
+        System.out.println(grille);grille.activerLigneDeCellules(2);
+        System.out.println("Après activation de la ligne 2 :");
+        System.out.println(grille);
+
     }
     
 }
