@@ -14,7 +14,7 @@ public class MiniProjet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // Bonjour
+        // On fait le lightsoff
     }
     
 }
