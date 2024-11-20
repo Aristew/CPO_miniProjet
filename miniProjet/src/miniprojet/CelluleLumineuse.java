@@ -6,7 +6,7 @@ package miniprojet;
 
 /**
  *
- * @author ethan
+ * @author ethan ariste
  */
 public class CelluleLumineuse {
     boolean etat; // true si allumée, false si éteinte

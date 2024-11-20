@@ -6,7 +6,7 @@ package miniprojet;
 
 /**
  *
- * @author arist
+ * @author ariste ethan
  */
 public class MiniProjet {
 

@@ -12,7 +12,7 @@ package miniprojet;
 import java.util.Random;
 
 public class GrilleDeCellules {
-    CelluleLumineuse[][] matriceCellules;
+    private CelluleLumineuse[][] matriceCellules;
     private int lignes;
     private int colonnes;
 
@@ -40,29 +40,29 @@ public class GrilleDeCellules {
         return affichage.toString();
     }
 
-    // Méthode pour activer une ligne entière
+    // Méthode pour activer/éteindre une ligne entière
     public void activerLigneDeCellules(int idLigne) {
         if (idLigne >= 0 && idLigne < lignes) {
             for (int j = 0; j < colonnes; j++) {
-                matriceCellules[idLigne][j].allumer();
+                matriceCellules[idLigne][j].inverserEtat();
             }
         }
     }
 
-    // Méthode pour activer une colonne entière
+    // Méthode pour activer/éteindre une colonne entière
     public void activerColonneDeCellules(int idColonne) {
         if (idColonne >= 0 && idColonne < colonnes) {
             for (int i = 0; i < lignes; i++) {
-                matriceCellules[i][idColonne].allumer();
+                matriceCellules[i][idColonne].inverserEtat();
             }
         }
     }
 
-    // Méthode pour activer la diagonale descendante (de haut gauche à bas droite)
+    // Méthode pour activer/éteindre la diagonale descendante (de haut gauche à bas droite)
     public void activerDiagonaleDescendante() {
         int taille = Math.min(lignes, colonnes);
         for (int i = 0; i < taille; i++) {
-            matriceCellules[i][i].allumer();
+            matriceCellules[i][i].inverserEtat();
         }
     }
 
@@ -70,7 +70,7 @@ public class GrilleDeCellules {
     public void activerDiagonaleMontante() {
         int taille = Math.min(lignes, colonnes);
         for (int i = 0; i < taille; i++) {
-            matriceCellules[lignes - 1 - i][i].allumer();
+            matriceCellules[lignes - 1 - i][i].inverserEtat();
         }
     }
 
