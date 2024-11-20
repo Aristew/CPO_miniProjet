@@ -39,26 +39,28 @@ public class MiniProjet {
         System.out.println(grille);
 
         // Test activerDiagonaleDescendante
-        grille.activerDiagonaleDescendante();
+        GrilleDeCellules grille4 = new GrilleDeCellules(4, 5);
+        grille4.activerDiagonaleDescendante();
         System.out.println("Après activation de la diagonale descendante :");
-        System.out.println(grille);
+        System.out.println(grille4);
 
         // Test activerDiagonaleMontante
-        grille.activerDiagonaleMontante();
+        GrilleDeCellules grille5 = new GrilleDeCellules(4, 5);
+        grille5.activerDiagonaleMontante();
         System.out.println("Après activation de la diagonale montante :");
-        System.out.println(grille);
+        System.out.println(grille5);
+        System.out.println("On désactive la diagonale montante :");
+        grille5.activerDiagonaleMontante();
+        System.out.println(grille5);
 
-        // Test activerLigneColonneOuDiagonaleAleatoire
-        grille.activerLigneColonneOuDiagonaleAleatoire();
-        System.out.println("Après activation d'une ligne/colonne/diagonale aléatoire :");
-        System.out.println(grille);
         
-        GrilleDeCellules grille1 = new GrilleDeCellules(4, 5);
-        System.out.println(grille1);
         // Test melangerMatriceAleatoirement
-        grille1.melangerMatriceAleatoirement(4);
-        System.out.println("Après mélange aléatoire (3 tours) :");
-        System.out.println(grille1);
+        GrilleDeCellules grille6 = new GrilleDeCellules(4, 5); // On teste sur une nouvelle grille
+        System.out.println("Nouvelle grille vierge : ");
+        System.out.println(grille6);
+        grille6.melangerMatriceAleatoirement(4);
+        System.out.println("Après mélange aléatoire (4 tours) :");
+        System.out.println(grille6);
         
         
     }
