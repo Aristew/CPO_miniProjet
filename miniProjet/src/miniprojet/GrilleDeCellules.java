@@ -12,7 +12,7 @@ package miniprojet;
 import java.util.Random;
 
 public class GrilleDeCellules {
-    private CelluleLumineuse[][] matriceCellules;
+    CelluleLumineuse[][] matriceCellules;
     private int lignes;
     private int colonnes;
 
