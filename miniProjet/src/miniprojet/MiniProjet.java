@@ -32,7 +32,35 @@ public class MiniProjet {
         System.out.println(grille);grille.activerLigneDeCellules(2);
         System.out.println("Après activation de la ligne 2 :");
         System.out.println(grille);
+        
+         // Test activerColonneDeCellules
+        grille.activerColonneDeCellules(3);
+        System.out.println("Après activation de la colonne 3 :");
+        System.out.println(grille);
 
+        // Test activerDiagonaleDescendante
+        grille.activerDiagonaleDescendante();
+        System.out.println("Après activation de la diagonale descendante :");
+        System.out.println(grille);
+
+        // Test activerDiagonaleMontante
+        grille.activerDiagonaleMontante();
+        System.out.println("Après activation de la diagonale montante :");
+        System.out.println(grille);
+
+        // Test activerLigneColonneOuDiagonaleAleatoire
+        grille.activerLigneColonneOuDiagonaleAleatoire();
+        System.out.println("Après activation d'une ligne/colonne/diagonale aléatoire :");
+        System.out.println(grille);
+        
+        GrilleDeCellules grille1 = new GrilleDeCellules(4, 5);
+        System.out.println(grille1);
+        // Test melangerMatriceAleatoirement
+        grille1.melangerMatriceAleatoirement(4);
+        System.out.println("Après mélange aléatoire (3 tours) :");
+        System.out.println(grille1);
+        
+        
     }
     
 }
