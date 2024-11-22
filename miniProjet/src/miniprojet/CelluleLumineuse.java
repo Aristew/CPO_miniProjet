@@ -8,36 +8,62 @@ package miniprojet;
  *
  * @author ethan ariste
  */
+/**
+ * La classe CelluleLumineuse représente une cellule qui peut être allumée ou éteinte.
+ * Son état est défini par un booléen (true pour allumée, false pour éteinte).
+ */
 public class CelluleLumineuse {
-    boolean etat; // true si allumée, false si éteinte
+    /** 
+     * État de la cellule : true si allumée, false si éteinte.
+     */
+    boolean etat; 
         
+    /**
+     * Constructeur par défaut de la classe CelluleLumineuse.
+     * Initialise la cellule à l'état éteint.
+     */
     public CelluleLumineuse() {
         this.etat = false; // Par défaut, la cellule est éteinte
     }
     
-    // Méthode pour allumer la cellule
+    /**
+     * Allume la cellule en définissant son état sur true.
+     */
     public void allumer() {
         this.etat = true;
     }
 
-    // Méthode pour éteindre la cellule
+    /**
+     * Éteint la cellule en définissant son état sur false.
+     */
     public void eteindre() {
         this.etat = false;
     }
     
-    // Méthode pour vérifier si la cellule est allumée
+    /**
+     * Vérifie si la cellule est allumée.
+     *
+     * @return true si la cellule est allumée, false sinon.
+     */
     public boolean estAllumee() {
         return this.etat;
     }
     
-    // Méthode pour inverser l'état de la cellule
+    /**
+     * Inverse l'état actuel de la cellule :
+     * si elle est allumée, elle devient éteinte, et inversement.
+     */
     public void inverserEtat() {
         this.etat = !this.etat;
     }
     
-    // Méthode pour afficher l'état de la cellule (utile pour la console)
+    /**
+     * Retourne une représentation textuelle de l'état de la cellule.
+     *
+     * @return "1" si la cellule est allumée, "0" si elle est éteinte.
+     */
     @Override
     public String toString() {
-        return etat ? "1" : "0"; // "1" pour allumée, "0" pour éteinte
+        return etat ? "1" : "0";
     }
 }

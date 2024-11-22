@@ -8,17 +8,23 @@ package miniprojet;
  *
  * @author ariste ethan
  */
+/**
+ * La classe MiniProjet contient le point d'entrée principal de l'application.
+ * Elle initialise une partie de jeu avec une grille et démarre l'interaction avec le joueur.
+ */
 public class MiniProjet {
 
     /**
-     * @param args the command line arguments
+     * Méthode principale (point d'entrée du programme).
+     * Elle crée une instance de la classe Partie avec une grille carrée et lance la partie.
+     *
+     * @param args les arguments de la ligne de commande (non utilisés dans ce programme)
      */
     public static void main(String[] args) {
-        // Créez une partie avec une grille de taille 3x3 (par exemple)
-        Partie partie = new Partie(4); // Le paramètre 3 définit la taille de la grille (3x3)
-        
-        // Lancez la partie
-        partie.lancerPartie(); // Lancer la méthode qui démarre le jeu
-    }
-    
+        // Crée une partie avec une grille de taille 4x4
+        Partie partie = new Partie(4);
+
+        // Lance la partie (interaction avec le joueur)
+        partie.lancerPartie();
+    } 
 }
