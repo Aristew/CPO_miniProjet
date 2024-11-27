@@ -8,66 +8,113 @@ import java.util.Scanner;
 
 /**
  *
- * @author ethan
+ * @author ethan ariste
+ */
+/**
+ * La classe Partie gère une session de jeu du type "Light Off", où le but est d'éteindre toutes
+ * les lumières d'une grille en inversant leur état (allumée/éteinte) via diverses actions.
  */
 /**
  * La classe Partie gère une session de jeu du type "Light Off", où le but est d'éteindre toutes
  * les lumières d'une grille en inversant leur état (allumée/éteinte) via diverses actions.
  */
 public class Partie {
-    private GrilleDeJeu grille; // Instance de la grille de jeu
-    private int nbCoups; // Compteur de coups joués
+    /**
+     * La grille de cellules lumineuses utilisée pour le jeu.
+     */
+    private GrilleDeCellules grille;
 
-    // Constructeur
-    public Partie() {
-        this.grille = new GrilleDeJeu(7, 7); // Exemple : une grille de 7x7
-        this.nbCoups = 0; // Initialisation du compteur de coups à zéro
+    /**
+     * Le nombre de coups joués depuis le début de la partie.
+     */
+    private int nombreDeCoups;
+
+    /**
+     * Constructeur de la classe Partie.
+     * Initialise une partie avec une grille carrée de taille spécifiée et mélange
+     * la grille pour commencer avec un état aléatoire.
+     *
+     * @param taille la taille de la grille (nombre de lignes et de colonnes)
+     */
+    public Partie(int taille) {
+        this.grille = new GrilleDeCellules(taille, taille);
+        this.nombreDeCoups = 0;
+
+        // Mélange la grille pour obtenir un état initial aléatoire
+        grille.melangerMatriceAleatoirement(taille * 2);
     }
 
-    // Méthode pour initialiser la partie
-    public void initialiserPartie() {
-        grille.melangerMatriceAleatoirement(10); // Mélanger la grille avec 10 tours (modifiable)
-        System.out.println("La partie est initialisée !");
-        System.out.println(grille); // Affiche l'état initial de la grille
-    }
-
-    // Méthode pour lancer la partie
+    /**
+     * Démarre une session de jeu où le joueur interagit avec la console
+     * pour inverser l'état des cellules jusqu'à ce que la grille soit entièrement éteinte.
+     */
     public void lancerPartie() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Bienvenue dans le jeu LightOff !");
-        System.out.println("Votre objectif est d'éteindre toutes les cellules lumineuses.");
-        System.out.println(grille); // Affiche l'état initial de la grille
+        System.out.println("Bienvenue dans le jeu Light Off !");
+        System.out.println("Votre objectif : éteindre toutes les lumières de la grille.");
+        System.out.println("Grille initiale :");
+        System.out.println(grille);
 
         // Boucle principale du jeu
-        while (!grille.cellulesToutesEteintes()) {
-            System.out.println("Que voulez-vous faire ?");
-            System.out.println("1: Activer une ligne | 2: Activer une colonne | 3: Activer une diagonale descendante | 4: Activer une diagonale montante");
+        while (!estGrilleEteinte()) {
+            System.out.println("Grille actuelle :");
+            System.out.println(grille);
+
+            // Menu des actions disponibles
+            System.out.println("\nChoisissez une action :");
+            System.out.println("1. Inverser une ligne");
+            System.out.println("2. Inverser une colonne");
+            System.out.println("3. Inverser la diagonale principale");
+            System.out.println("4. Inverser la diagonale secondaire");
+            System.out.print("Entrez votre choix (1-4) : ");
             int choix = scanner.nextInt();
 
+            // Traitement de l'action choisie
             switch (choix) {
-                case 1 -> {
-                    System.out.print("Entrez le numéro de la ligne (0 à " + (grille.getNbLignes() - 1) + "): ");
-                    int ligne = scanner.nextInt();
+                case 1:
+                    System.out.print("Entrez le numéro de la ligne (1-" + grille.matriceCellules.length + ") : ");
+                    int ligne = scanner.nextInt() - 1;
                     grille.activerLigneDeCellules(ligne);
-                }
-                case 2 -> {
-                    System.out.print("Entrez le numéro de la colonne (0 à " + (grille.getNbColonnes() - 1) + "): ");
-                    int colonne = scanner.nextInt();
+                    break;
+                case 2:
+                    System.out.print("Entrez le numéro de la colonne (1-" + grille.matriceCellules[0].length + ") : ");
+                    int colonne = scanner.nextInt() - 1;
                     grille.activerColonneDeCellules(colonne);
-                }
-                case 3 -> grille.activerDiagonaleDescendante();
-                case 4 -> grille.activerDiagonaleMontante();
-                default -> System.out.println("Choix invalide. Veuillez réessayer.");
+                    break;
+                case 3:
+                    grille.activerDiagonaleDescendante();
+                    break;
+                case 4:
+                    grille.activerDiagonaleMontante();
+                    break;
+                default:
+                    System.out.println("Choix invalide. Essayez à nouveau.");
+                    continue;
             }
 
-            nbCoups++; // Incrémenter le compteur de coups
-            System.out.println("Grille mise à jour :");
-            System.out.println(grille); // Afficher la grille mise à jour
-            System.out.println("Nombre de coups joués : " + nbCoups);
+            // Incrémentation du compteur de coups
+            nombreDeCoups++;
         }
 
-        System.out.println("Félicitations, vous avez éteint toutes les cellules !");
-        System.out.println("Partie terminée en " + nbCoups + " coups.");
-        scanner.close(); // Fermer le scanner pour libérer les ressources
+        // Message de victoire
+        System.out.println("Félicitations ! Vous avez éteint toutes les lumières.");
+        System.out.println("Nombre total de coups joués : " + nombreDeCoups);
+        scanner.close();
+    }
+
+    /**
+     * Vérifie si toutes les cellules de la grille sont éteintes.
+     *
+     * @return true si toutes les cellules sont éteintes, false sinon
+     */
+    private boolean estGrilleEteinte() {
+        for (int i = 0; i < grille.matriceCellules.length; i++) {
+            for (int j = 0; j < grille.matriceCellules[i].length; j++) {
+                if (grille.matriceCellules[i][j].estAllumee()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
