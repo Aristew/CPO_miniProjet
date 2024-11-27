@@ -10,7 +10,7 @@ package miniprojet;
  */
 /**
  * La classe MiniProjet contient le point d'entrée principal de l'application.
- * Elle initialise une partie de jeu avec une grille et démarre l'interaction avec le joueur.
+ * Elle initialise une partie de jeu avec une grille 
  */
 public class MiniProjet {
 
