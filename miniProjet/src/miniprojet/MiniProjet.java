@@ -14,6 +14,7 @@ package miniprojet;
  */
 public class MiniProjet {
 
+    
     /**
      * Méthode principale (point d'entrée du programme).
      * Elle crée une instance de la classe Partie avec une grille carrée et lance la partie.
