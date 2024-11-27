@@ -24,24 +24,10 @@ public class Partie {
      */
     private GrilleDeCellules grille;
 
-    /**
-     * Le nombre de coups joués depuis le début de la partie.
-     */
-    private int nombreDeCoups;
-
-    /**
-     * Constructeur de la classe Partie.
-     * Initialise une partie avec une grille carrée de taille spécifiée et mélange
-     * la grille pour commencer avec un état aléatoire.
-     *
-     * @param taille la taille de la grille (nombre de lignes et de colonnes)
-     */
-    public Partie(int taille) {
-        this.grille = new GrilleDeCellules(taille, taille);
-        this.nombreDeCoups = 0;
-
-        // Mélange la grille pour obtenir un état initial aléatoire
-        grille.melangerMatriceAleatoirement(taille * 2);
+    // Constructeur .
+    public Partie() {
+        this.grille = new GrilleDeJeu(7, 7); // Exemple : une grille de 7x7
+        this.nbCoups = 0; // Initialisation du compteur de coups à zéro
     }
 
     /**
