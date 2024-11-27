@@ -21,10 +21,8 @@ public class MiniProjet {
      * @param args les arguments de la ligne de commande (non utilisés dans ce programme)
      */
     public static void main(String[] args) {
-        // Crée une partie avec une grille de taille 4x4
-        Partie partie = new Partie(4);
-
-        // Lance la partie (interaction avec le joueur)
+        Partie partie = new Partie();
+        partie.initialiserPartie();
         partie.lancerPartie();
-    } 
+    }
 }
