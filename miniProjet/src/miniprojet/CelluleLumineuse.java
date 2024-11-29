@@ -5,45 +5,67 @@
 package miniprojet;
 
 /**
- *
- * @author ethan ariste
- */
-/**
  * La classe CelluleLumineuse représente une cellule qui peut être allumée ou éteinte.
- * Son état est défini par un booléen (true pour allumée, false pour éteinte).
+ * Son état est défini par un booléen : true pour allumée, false pour éteinte.
+ * Elle fournit des méthodes pour manipuler et interroger son état.
+ * 
+ * @author Ethan Ariste
  */
 public class CelluleLumineuse {
-    // Attribut : état de la cellule (true = allumée, false = éteinte)
+    /**
+     * L'état de la cellule lumineuse : true si allumée, false si éteinte.
+     */
     private boolean etat;
 
-    // Constructeur par défaut : initialise la cellule à "éteinte"
+    /**
+     * Constructeur par défaut.
+     * Initialise l'état de la cellule à éteinte (false).
+     */
     public CelluleLumineuse() {
         this.etat = false;
     }
 
-    // Méthode pour activer la cellule (inverser son état)
+    /**
+     * Active la cellule lumineuse en inversant son état.
+     * Si elle est éteinte, elle s'allume ; si elle est allumée, elle s'éteint.
+     */
     public void activerCellule() {
         this.etat = !this.etat;
     }
 
-    // Méthode pour éteindre la cellule
+    /**
+     * Éteint la cellule lumineuse.
+     * Si la cellule est déjà éteinte, cette méthode n'a aucun effet.
+     */
     public void eteindreCellule() {
         this.etat = false;
     }
 
-    // Méthode pour vérifier si la cellule est éteinte
+    /**
+     * Vérifie si la cellule lumineuse est éteinte.
+     * 
+     * @return true si la cellule est éteinte, false si elle est allumée.
+     */
     public boolean estEteint() {
         return !this.etat;
     }
 
-    // Méthode pour obtenir l'état de la cellule
+    /**
+     * Renvoie l'état actuel de la cellule lumineuse.
+     * 
+     * @return true si la cellule est allumée, false si elle est éteinte.
+     */
     public boolean getEtat() {
         return this.etat;
     }
 
-    // Redéfinition de la méthode toString pour représenter l'état de la cellule
+    /**
+     * Redéfinit la méthode toString pour fournir une représentation visuelle de la cellule.
+     * 
+     * @return "X" si la cellule est allumée, "O" si elle est éteinte.
+     */
     @Override
     public String toString() {
-        return etat ? "X" : "O"; // "X" pour allumée, "O" pour éteinte
+        return etat ? "X" : "O";
     }
 }
