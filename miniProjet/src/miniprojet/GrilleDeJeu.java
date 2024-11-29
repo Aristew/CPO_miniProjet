@@ -3,14 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package miniprojet;
-
 /**
  *
  * @author ethan ariste
  * Classe représentant une grille de cellules lumineuses.
  */
 import java.util.Random;
-
 /**
  * La classe GrilleDeJeu représente une grille de cellules lumineuses.
  * Chaque cellule peut être allumée ou éteinte, et la grille offre des opérations
@@ -89,7 +87,6 @@ public class GrilleDeJeu {
     public void activerLigneColonneOuDiagonaleAleatoire() {
         Random rand = new Random();
         int choix = rand.nextInt(4); // 0: ligne, 1: colonne, 2: diagonale descendante, 3: diagonale montante
-
         switch (choix) {
             case 0 -> activerLigneDeCellules(rand.nextInt(nbLignes));
             case 1 -> activerColonneDeCellules(rand.nextInt(nbColonnes));
@@ -181,14 +178,12 @@ public class GrilleDeJeu {
     @Override
     public String toString() {
         StringBuilder affichage = new StringBuilder();
-
         // Affichage des indices de colonnes
         affichage.append("   ");
         for (int j = 0; j < nbColonnes; j++) {
             affichage.append("| ").append(j).append(" ");
         }
         affichage.append("|\n").append("   ").append("-".repeat(nbColonnes * 4)).append("\n");
-
         // Affichage des cellules avec les indices de lignes
         for (int i = 0; i < nbLignes; i++) {
             affichage.append(i).append(" | "); // Indice de ligne
@@ -197,8 +192,6 @@ public class GrilleDeJeu {
             }
             affichage.append("\n").append("   ").append("-".repeat(nbColonnes * 4)).append("\n");
         }
-
         return affichage.toString();
     }
 }
-
