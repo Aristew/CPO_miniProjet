@@ -24,7 +24,7 @@ public class Partie {
     public void lancerPartie() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Bienvenue dans le jeu LightOff !");
-        System.out.println("Votre objectif est d'éteindre toutes les cellules lumineuses.");
+        System.out.println("Votre objectif est d'eteindre toutes les cellules lumineuses.");
         System.out.println(grille); // Affiche l'état initial de la grille
 
         // Boucle principale du jeu
@@ -37,12 +37,20 @@ public class Partie {
                 case 1 -> {
                     System.out.print("Entrez le numero de la ligne (0 à " + (grille.getNbLignes() - 1) + "): ");
                     int ligne = scanner.nextInt();
-                    grille.activerLigneDeCellules(ligne);
+                    if (ligne<=(grille.getNbLignes() - 1) && ligne>0) {
+                        grille.activerLigneDeCellules(ligne);
+                    } else {
+                        System.out.println("Choix invalide. Veuillez reessayer.");
+                    }
                 }
                 case 2 -> {
-                    System.out.print("Entrez le numero de la colonne (0 à " + (grille.getNbColonnes() - 1) + "): ");
+                    System.out.print("Entrez le numéro de la colonne (0 à " + (grille.getNbColonnes() - 1) + "): ");
                     int colonne = scanner.nextInt();
-                    grille.activerColonneDeCellules(colonne);
+                    if (colonne<=(grille.getNbColonnes() - 1) && colonne>0) {
+                        grille.activerColonneDeCellules(colonne);
+                    } else {
+                        System.out.println("Choix invalide. Veuillez reessayer.");
+                    }
                 }
                 case 3 -> grille.activerDiagonaleDescendante();
                 case 4 -> grille.activerDiagonaleMontante();
@@ -52,11 +60,11 @@ public class Partie {
             nbCoups++; // Incrémenter le compteur de coups
             System.out.println("Grille mise à jour :");
             System.out.println(grille); // Afficher la grille mise à jour
-            System.out.println("Nombre de coups joués : " + nbCoups);
+            System.out.println("Nombre de coups joues : " + nbCoups);
         }
 
         System.out.println("Felicitations, vous avez eteint toutes les cellules !");
-        System.out.println("Partie terminée en " + nbCoups + " coups.");
+        System.out.println("Partie terminee en " + nbCoups + " coups.");
         scanner.close(); // Fermer le scanner pour libérer les ressources
     }
 }
