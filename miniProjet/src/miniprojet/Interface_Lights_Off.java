@@ -32,6 +32,12 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
             for (int j = 0; j < 7; j++) {
                 JButton button = new JButton("");
                 jPanel2.add(button);
+                
+                button.addActionListener(new java.awt.event.ActionListener(){
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        
+                    }
+                });
             }
         }
         initialiserPartie();
