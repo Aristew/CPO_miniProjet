@@ -34,7 +34,7 @@ public class Partie {
      * Par défaut, la grille est mélangée avec 10 activations aléatoires.
      */
     public void initialiserPartie() {
-        grille.melangerMatriceAleatoirement(10); // Mélanger la grille avec 10 tours (modifiable)
+        grille.melangerMatriceAleatoirement(15); // Mélanger la grille avec 10 tours (modifiable)
         System.out.println("La partie est initialisee !");
         System.out.println(grille); // Affiche l'état initial de la grille
     }
@@ -50,7 +50,7 @@ public class Partie {
         System.out.println("Bienvenue dans le jeu LightOff !");
         System.out.println("Votre objectif est d'eteindre toutes les cellules lumineuses.");
         System.out.println(grille); // Affiche l'état initial de la grille
-
+        
         // Boucle principale du jeu
         while (!grille.cellulesToutesEteintes()) {
             System.out.println("Que voulez-vous faire ?");
