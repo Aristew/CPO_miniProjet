@@ -86,7 +86,7 @@ public class GrilleDeJeu {
      */
     public void activerLigneColonneOuDiagonaleAleatoire() {
         Random rand = new Random();
-        int choix = rand.nextInt(4); // 0: ligne, 1: colonne, 2: diagonale descendante, 3: diagonale montante
+    int choix = rand.nextInt(6); // 0: ligne, 1: colonne, 2: diagonale descendante, 3: diagonale montante
         switch (choix) {
             case 0 -> activerLigneDeCellules(rand.nextInt(nbLignes));
             case 1 -> activerColonneDeCellules(rand.nextInt(nbColonnes));
