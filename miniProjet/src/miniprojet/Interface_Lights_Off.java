@@ -10,12 +10,16 @@ import javax.swing.JButton;
  * @author ethan
  */
 public class Interface_Lights_Off extends javax.swing.JFrame {
-
+    GrilleDeJeu grille; 
+    int nbCoups; 
      /* Creates new form Interface_Lights_Off
      */
     public Interface_Lights_Off() {
         initComponents();
-        
+        int nbLignes=7;
+        int nbColonnes=7;
+        this.grille = new GrilleDeJeu(nbLignes, nbColonnes); 
+
         for (int i = 0; i < 7; i++) {
             JButton button = new JButton(""+i);
             jPanel4.add(button);
@@ -30,8 +34,14 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
                 jPanel2.add(button);
             }
         }
+        initialiserPartie();
     }
-
+    
+    public void initialiserPartie() { 
+        grille.eteindreToutesLesCellules(); 
+        grille.melangerMatriceAleatoirement(10); 
+    } 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
