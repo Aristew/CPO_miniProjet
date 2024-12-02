@@ -52,7 +52,7 @@ public class CelluleGraphique extends JButton {
 
         // Ajouter le texte centré ("X" ou "O")
         g.setColor(Color.BLACK);
-        g.drawString(celluleLumineuseAssociee.toString(), getWidth() / 2 - 5, getHeight() / 2 + 5);
+        
     }
 }
 
