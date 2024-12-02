@@ -19,27 +19,37 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         int nbLignes=7;
         int nbColonnes=7;
         this.grille = new GrilleDeJeu(nbLignes, nbColonnes); 
-
+        
+        // Dans votre code où vous gérez les boutons de la grille
         for (int i = 0; i < 7; i++) {
             JButton button = new JButton(""+i);
             jPanel4.add(button);
-            
-            button.addActionListener(new java.awt.event.ActionListener(){
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        
-                    }
-                });
+
+            final int colonne = i; // capture de la ligne ou colonne correspondante
+            button.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    // Lorsque l'on clique sur un bouton, on active la colonne correspondante
+                    grille.activerColonneDeCellules(colonne);
+                    repaint(); // Re-dessine la grille pour refléter les changements
+                }
+            });
         }
+
         for (int j = 0; j < 7; j++) {
             JButton button = new JButton(""+j);
             jPanel1.add(button);
+
+            final int ligne = j; // capture de la colonne correspondante
+                        button.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    // Lorsque l'on clique sur un bouton, on active la ligne correspondante
+                    grille.activerLigneDeCellules(ligne);
+                    repaint(); // Re-dessine la grille pour refléter les changements
+                }
+            });
             
-            button.addActionListener(new java.awt.event.ActionListener(){
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        
-                    }
-                });
         }
+
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 CelluleGraphique button = new CelluleGraphique( grille.matriceCellules[i][j], 36,36);
