@@ -20,7 +20,7 @@ public class GrilleDeJeu {
     /**
      * Matrice à deux dimensions de cellules lumineuses.
      */
-    private CelluleLumineuse[][] matriceCellules;
+    CelluleLumineuse[][] matriceCellules;
 
     /**
      * Nombre de lignes dans la grille.

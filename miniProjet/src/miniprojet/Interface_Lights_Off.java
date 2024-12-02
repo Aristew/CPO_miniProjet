@@ -30,7 +30,7 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         }
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                JButton button = new JButton("");
+                CelluleGraphique button = new CelluleGraphique( grille.matriceCellules[i][j], 36,36);
                 jPanel2.add(button);
                 
                 button.addActionListener(new java.awt.event.ActionListener(){
