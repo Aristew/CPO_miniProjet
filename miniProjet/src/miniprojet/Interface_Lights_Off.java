@@ -23,21 +23,27 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         for (int i = 0; i < 7; i++) {
             JButton button = new JButton(""+i);
             jPanel4.add(button);
+            
+            button.addActionListener(new java.awt.event.ActionListener(){
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        
+                    }
+                });
         }
         for (int j = 0; j < 7; j++) {
             JButton button = new JButton(""+j);
             jPanel1.add(button);
+            
+            button.addActionListener(new java.awt.event.ActionListener(){
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        
+                    }
+                });
         }
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 CelluleGraphique button = new CelluleGraphique( grille.matriceCellules[i][j], 36,36);
                 jPanel2.add(button);
-                
-                button.addActionListener(new java.awt.event.ActionListener(){
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        
-                    }
-                });
             }
         }
         initialiserPartie();
