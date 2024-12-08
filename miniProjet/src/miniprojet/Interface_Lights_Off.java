@@ -4,6 +4,7 @@
  */
 package miniprojet;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,51 +19,76 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         initComponents();
         int nbLignes=7;
         int nbColonnes=7;
-        this.grille = new GrilleDeJeu(nbLignes, nbColonnes); 
+        this.grille = new GrilleDeJeu(nbLignes, nbColonnes);
+        this.nbCoups = 0;
         
-        // Dans votre code où vous gérez les boutons de la grille
+        // Ajouter les boutons pour les colonnes
         for (int i = 0; i < 7; i++) {
-            JButton button = new JButton(""+i);
+            JButton button = new JButton("" + i);
             jPanel4.add(button);
 
-            final int colonne = i; // capture de la ligne ou colonne correspondante
-            button.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    // Lorsque l'on clique sur un bouton, on active la colonne correspondante
-                    grille.activerColonneDeCellules(colonne);
-                    repaint(); // Re-dessine la grille pour refléter les changements
-                }
+            final int colonne = i; // capture de la colonne correspondante
+            button.addActionListener(evt -> {
+                grille.activerColonneDeCellules(colonne);
+                nbCoups++;
+                rafraichirGrille();
+                verifierConditionVictoire();
             });
         }
 
+        // Ajouter les boutons pour les lignes
         for (int j = 0; j < 7; j++) {
-            JButton button = new JButton(""+j);
+            JButton button = new JButton("" + j);
             jPanel1.add(button);
 
-            final int ligne = j; // capture de la colonne correspondante
-                        button.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    // Lorsque l'on clique sur un bouton, on active la ligne correspondante
-                    grille.activerLigneDeCellules(ligne);
-                    repaint(); // Re-dessine la grille pour refléter les changements
-                }
+            final int ligne = j; // capture de la ligne correspondante
+            button.addActionListener(evt -> {
+                grille.activerLigneDeCellules(ligne);
+                nbCoups++;
+                rafraichirGrille();
+                verifierConditionVictoire();
             });
-            
         }
 
+        // Ajouter les cellules graphiques
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                CelluleGraphique button = new CelluleGraphique( grille.matriceCellules[i][j], 36,36);
+                CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], 36, 36);
                 jPanel2.add(button);
             }
         }
         initialiserPartie();
     }
     
-    public void initialiserPartie() { 
-        grille.eteindreToutesLesCellules(); 
-        grille.melangerMatriceAleatoirement(10); 
-    } 
+    /**
+     * Initialise la partie.
+     */
+    public void initialiserPartie() {
+        grille.eteindreToutesLesCellules();
+        grille.melangerMatriceAleatoirement(10);
+        nbCoups = 0;
+        rafraichirGrille();
+    }
+
+    /**
+     * Met à jour l'affichage graphique des cellules.
+     */
+    public void rafraichirGrille() {
+        jPanel2.repaint();
+    }
+
+    /**
+    * Vérifie si la condition de victoire est remplie.
+    */
+    public void verifierConditionVictoire() {
+       if (grille.toutesLesCellulesEteintes()) {
+           JOptionPane.showMessageDialog(this,
+                   "Bravo, vous avez gagné en " + nbCoups + " coups !",
+                   "Victoire",
+                   JOptionPane.INFORMATION_MESSAGE);
+           initialiserPartie();
+       }
+   }
     
     /**
      * This method is called from within the constructor to initialize the form.

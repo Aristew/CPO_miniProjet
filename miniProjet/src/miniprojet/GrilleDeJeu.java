@@ -82,6 +82,22 @@ public class GrilleDeJeu {
     }
 
     /**
+    * Vérifie si toutes les cellules de la grille sont éteintes.
+    *
+    * @return true si toutes les cellules sont éteintes, false sinon.
+    */
+    public boolean toutesLesCellulesEteintes() {
+       for (int i = 0; i < nbLignes; i++) {
+           for (int j = 0; j < nbColonnes; j++) {
+               if (matriceCellules[i][j].getEtat()) { // Si une cellule est allumée
+                   return false;
+               }
+           }
+       }
+       return true; // Si aucune cellule n'est allumée
+   }
+
+    /**
      * Active aléatoirement une ligne, une colonne ou une diagonale dans la grille.
      */
     public void activerLigneColonneOuDiagonaleAleatoire() {
