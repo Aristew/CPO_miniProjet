@@ -57,4 +57,3 @@ public class CelluleGraphique extends JButton {
     }
 }
 
-
