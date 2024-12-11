@@ -15,15 +15,44 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
     int nbCoups;
      /* Creates new form Interface_Lights_Off
      */
+    public int demanderTailleGrille() {
+    // Options disponibles
+    String[] options = {"(5x5) BUGUE", "(7x7) ", "(9x9) BUGUE"};
+    
+    // Boîte de dialogue pour demander la taille
+    int choix = JOptionPane.showOptionDialog(
+            this, // Parent Component
+            "Choisissez la taille de la grille :", // Message
+            "Taille de la Grille", // Titre
+            JOptionPane.DEFAULT_OPTION, // Type d'options
+            JOptionPane.QUESTION_MESSAGE, // Icône
+            null, // Icône personnalisée (null = icône par défaut)
+            options, // Options
+            options[1] // Option par défaut
+    );
+
+    // Renvoie la taille en fonction du choix
+    switch (choix) {
+        case 0:
+            return 5; // Petite grille
+        case 1:
+            return 7; // Moyenne grille
+        case 2:
+            return 9; // Grande grille
+        default:
+            return 7; // Valeur par défaut si aucune sélection
+    }
+}
     public Interface_Lights_Off() {
         initComponents();
-        int nbLignes=7;
-        int nbColonnes=7;
+        int n = demanderTailleGrille();
+        int nbLignes= n;
+        int nbColonnes=n;
         this.grille = new GrilleDeJeu(nbLignes, nbColonnes);
         this.nbCoups = 0;
        
         // Ajouter les boutons pour les colonnes
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < nbColonnes; i++) {
             JButton button = new JButton("" + i);
             jPanel4.add(button);
 
@@ -37,7 +66,7 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         }
 
         // Ajouter les boutons pour les lignes
-        for (int j = 0; j < 7; j++) {
+        for (int j = 0; j < nbLignes; j++) {
             JButton button = new JButton("" + j);
             jPanel1.add(button);
 
@@ -51,8 +80,8 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         }
 
         // Ajouter les cellules graphiques
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], 36, 36);
                 jPanel2.add(button);
             }
