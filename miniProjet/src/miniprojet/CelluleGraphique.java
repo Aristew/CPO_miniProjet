@@ -7,6 +7,7 @@ import javax.swing.JButton;
 /**
  * La classe CelluleGraphique représente une cellule de la grille avec un affichage graphique.
  * Les cellules allumées ("X") sont jaunes, et les cellules éteintes ("O") sont grises.
+ * @author ariste ethan
  */
 public class CelluleGraphique extends JButton {
     CelluleLumineuse celluleLumineuseAssociee;
