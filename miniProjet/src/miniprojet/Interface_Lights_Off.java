@@ -17,7 +17,7 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
      */
     public int demanderTailleGrille() {
     // Options disponibles
-    String[] options = {"(5x5) BUGUE", "(7x7) ", "(9x9) BUGUE"};
+    String[] options = {"(5x5)", "(7x7)", "(9x9)"};
     
     // Boîte de dialogue pour demander la taille
     int choix = JOptionPane.showOptionDialog(
@@ -48,8 +48,11 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         int n = demanderTailleGrille();
         int nbLignes= n;
         int nbColonnes=n;
+        jPanel1.setLayout(new java.awt.GridLayout(nbLignes, 1)); // Ajuste le layout des boutons de lignes
+        jPanel4.setLayout(new java.awt.GridLayout(1, nbColonnes));
         this.grille = new GrilleDeJeu(nbLignes, nbColonnes);
         this.nbCoups = 0;
+        jPanel2.setLayout(new java.awt.GridLayout(n, n));
        
         // Ajouter les boutons pour les colonnes
         for (int i = 0; i < nbColonnes; i++) {
@@ -82,11 +85,13 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         // Ajouter les cellules graphiques
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], 36, 36);
-                jPanel2.add(button);
+            int tailleBouton = 600 / n; // Ajuster en fonction de l'espace disponible
+            CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], tailleBouton, tailleBouton);                
+            jPanel2.add(button);
             }
         }
         initialiserPartie();
+        this.setSize(new java.awt.Dimension(800, 800)); // Ajuster la taille totale si nécessaire
     }
    
     /**
@@ -110,14 +115,20 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
     * Vérifie si la condition de victoire est remplie.
     */
     public void verifierConditionVictoire() {
-       if (grille.cellulesToutesEteintes()) {
-           JOptionPane.showMessageDialog(this,
-                   "Bravo, vous avez gagné en " + nbCoups + " coups !",
-                   "Victoire",
-                   JOptionPane.INFORMATION_MESSAGE);
-           initialiserPartie();
-       }
-   }
+    if (grille.cellulesToutesEteintes()) {
+        int choix = JOptionPane.showConfirmDialog(this,
+                "Bravo, vous avez gagné en " + nbCoups + " coups !\nVoulez-vous rejouer ?",
+                "Victoire",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+        if (choix == JOptionPane.YES_OPTION) {
+            initialiserPartie(); // Réinitialise le jeu
+        } else {
+            System.exit(0); // Quitte le programme
+        }
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,9 +141,8 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,24 +155,21 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setLayout(new java.awt.GridLayout(7, 7));
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel3.setLayout(new java.awt.GridLayout(1, 2));
+        jButton3.setBackground(new java.awt.Color(255, 204, 204));
+        jButton3.setText("Diagonale Montante ");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Diagonale Descendante");
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
+        jButton1.setText("Diagonale Descendante ");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1);
-
-        jButton2.setText("Diagonale Montante ");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,12 +181,12 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(277, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(101, 101, 101))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,9 +196,11 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(41, 41, 41)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,12 +215,16 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         grille.activerDiagonaleMontante();
         repaint();
         nbCoups++;
         rafraichirGrille();
         verifierConditionVictoire();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,10 +263,9 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 }
