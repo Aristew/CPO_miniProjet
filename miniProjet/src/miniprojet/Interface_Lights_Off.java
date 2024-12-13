@@ -115,20 +115,32 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
     * Vérifie si la condition de victoire est remplie.
     */
     public void verifierConditionVictoire() {
-    if (grille.cellulesToutesEteintes()) {
-        int choix = JOptionPane.showConfirmDialog(this,
-                "Bravo, vous avez gagné en " + nbCoups + " coups !\nVoulez-vous rejouer ?",
-                "Victoire",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE);
-
-        if (choix == JOptionPane.YES_OPTION) {
-            initialiserPartie(); // Réinitialise le jeu
-        } else {
-            System.exit(0); // Quitte le programme
-        }
-    }
-}
+       if (grille.cellulesToutesEteintes()) {
+           JOptionPane.showMessageDialog(this,
+                   "Bravo, vous avez gagné en " + nbCoups + " coups !",
+                   "Victoire",
+                   JOptionPane.INFORMATION_MESSAGE);
+                String[] a = {"Relancer Partie", "Quitter "};
+    
+                    // Boîte de dialogue pour quitter ou relancer
+                    int b = JOptionPane.showOptionDialog(
+                this, // Parent Component
+                "Relancer une partie", // Message
+                "Jeux Light Off", // Titre
+                JOptionPane.DEFAULT_OPTION, // Type d'options
+                JOptionPane.QUESTION_MESSAGE, // Icône
+                null, // Icône personnalisée (null = icône par défaut)
+                a,
+                a[0]); // Option par défaut
+                if (b == 0) { 
+                     initialiserPartie();
+                }else {
+                    this.dispose(); // Ferme la fenêtre actuelle
+                    System.exit(0); // Termine le programme
+                        
+                } 
+       }
+   }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
