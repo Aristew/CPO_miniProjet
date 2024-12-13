@@ -13,46 +13,52 @@ import javax.swing.JOptionPane;
 public class Interface_Lights_Off extends javax.swing.JFrame {
     GrilleDeJeu grille;
     int nbCoups;
-     /* Creates new form Interface_Lights_Off
-     */
-    public int demanderTailleGrille() {
-    // Options disponibles
-    String[] options = {"(5x5)", "(7x7)", "(9x9)"};
+    int maxCoups; // Limite du nombre de coups en fonction du niveau
+    int nbLignes;  // Ajoutez cette variable
+    int nbColonnes;  // Ajoutez cette variable
     
-    // Boîte de dialogue pour demander la taille
-    int choix = JOptionPane.showOptionDialog(
-            this, // Parent Component
-            "Choisissez la taille de la grille :", // Message
-            "Taille de la Grille", // Titre
-            JOptionPane.DEFAULT_OPTION, // Type d'options
-            JOptionPane.QUESTION_MESSAGE, // Icône
-            null, // Icône personnalisée (null = icône par défaut)
-            options, // Options
-            options[1] // Option par défaut
-    );
+    public int demanderNiveauDifficulte() {
+        // Options disponibles
+        String[] options = {"Facile (5x5, max 50 coups)", "Moyen (7x7, max 20 coups)", "Difficile (9x9, max 10 coups)"};
+        
+        // Boîte de dialogue pour demander le niveau de difficulté
+        int choix = JOptionPane.showOptionDialog(
+                this, // Parent Component
+                "Choisissez un niveau de difficulté :", // Message
+                "Niveau de Difficulté", // Titre
+                JOptionPane.DEFAULT_OPTION, // Type d'options
+                JOptionPane.QUESTION_MESSAGE, // Icône
+                null, // Icône personnalisée (null = icône par défaut)
+                options, // Options
+                options[0] // Option par défaut
+        );
 
-    // Renvoie la taille en fonction du choix
-    switch (choix) {
-        case 0:
-            return 5; // Petite grille
-        case 1:
-            return 7; // Moyenne grille
-        case 2:
-            return 9; // Grande grille
-        default:
-            return 7; // Valeur par défaut si aucune sélection
+        // Renvoie le niveau choisi et la taille correspondante
+        switch (choix) {
+            case 0:
+                maxCoups = 50; // Facile
+                return 5; // Taille 5x5
+            case 1:
+                maxCoups = 20; // Moyen
+                return 7; // Taille 7x7
+            case 2:
+                maxCoups = 10; // Difficile
+                return 9; // Taille 9x9
+            default:
+                maxCoups = 20; // Niveau moyen par défaut
+                return 7; // Taille 7x7 par défaut
+        }
     }
-}
+
     public Interface_Lights_Off() {
         initComponents();
-        int n = demanderTailleGrille();
-        int nbLignes= n;
-        int nbColonnes=n;
-        jPanel1.setLayout(new java.awt.GridLayout(nbLignes, 1)); // Ajuste le layout des boutons de lignes
-        jPanel4.setLayout(new java.awt.GridLayout(1, nbColonnes));
-        this.grille = new GrilleDeJeu(nbLignes, nbColonnes);
-        this.nbCoups = 0;
-        jPanel2.setLayout(new java.awt.GridLayout(n, n));
+        nbLignes = demanderNiveauDifficulte(); // Demander uniquement le niveau, taille incluse
+    nbColonnes = nbLignes;  // La grille est carrée, donc nbColonnes = nbLignes
+    jPanel1.setLayout(new java.awt.GridLayout(nbLignes, 1)); // Ajuste le layout des boutons de lignes
+    jPanel4.setLayout(new java.awt.GridLayout(1, nbColonnes));
+    this.grille = new GrilleDeJeu(nbLignes, nbColonnes);
+    this.nbCoups = 0;
+    jPanel2.setLayout(new java.awt.GridLayout(nbLignes, nbColonnes));
        
         // Ajouter les boutons pour les colonnes
         for (int i = 0; i < nbColonnes; i++) {
@@ -65,6 +71,8 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
                 nbCoups++;
                 rafraichirGrille();
                 verifierConditionVictoire();
+                verifierLimiteCoups(); // Vérification ajoutée ici
+
             });
         }
 
@@ -79,30 +87,78 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
                 nbCoups++;
                 rafraichirGrille();
                 verifierConditionVictoire();
+                verifierLimiteCoups(); // Vérification ajoutée ici
+
             });
         }
 
         // Ajouter les cellules graphiques
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-            int tailleBouton = 600 / n; // Ajuster en fonction de l'espace disponible
-            CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], tailleBouton, tailleBouton);                
+    for (int i = 0; i < nbLignes; i++) {
+        for (int j = 0; j < nbColonnes; j++) {
+            int tailleBouton = 600 / nbLignes; // Ajuster en fonction de l'espace disponible
+            CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], tailleBouton, tailleBouton);
             jPanel2.add(button);
-            }
         }
+    }
+    
         initialiserPartie();
         this.setSize(new java.awt.Dimension(800, 800)); // Ajuster la taille totale si nécessaire
     }
    
-    /**
-     * Initialise la partie.
-     */
-    public void initialiserPartie() {
-        grille.eteindreToutesLesCellules();
-        grille.melangerMatriceAleatoirement(10);
-        nbCoups = 0;
-        rafraichirGrille();
+    
+public void initialiserPartie() {
+    grille.eteindreToutesLesCellules();
+    
+    switch (nbLignes) {
+        case 5: // Facile (5x5)
+            grille.melangerMatriceAleatoirement(5); // Moins de mélange pour faciliter
+            break;
+        case 7: // Moyen (7x7)
+            grille.melangerMatriceAleatoirement(15);
+            break;
+        case 9: // Difficile (9x9)
+            grille.melangerMatriceAleatoirement(30);
+            break;
+        default:
+            // Cas par défaut, au cas où
+            grille.melangerMatriceAleatoirement(10);
+            break;
     }
+    
+    nbCoups = 0;
+    rafraichirGrille();
+}
+
+/**
+ * Vérifie si le nombre de coups a dépassé la limite autorisée.
+ */
+public void verifierLimiteCoups() {
+    if (nbCoups >= maxCoups) {
+        JOptionPane.showMessageDialog(this,
+                "Dommage, vous avez dépassé la limite de " + maxCoups + " coups.",
+                "Défaite",
+                JOptionPane.INFORMATION_MESSAGE);
+
+        // Proposer de relancer ou quitter
+        String[] options = {"Relancer Partie", "Quitter"};
+        int choix = JOptionPane.showOptionDialog(
+                this,
+                "Voulez-vous relancer une partie ?",
+                "Fin de Partie",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (choix == 0) {
+            initialiserPartie();
+        } else {
+            this.dispose();
+            System.exit(0);
+        }
+    }
+}
 
     /**
      * Met à jour l'affichage graphique des cellules.
@@ -220,22 +276,22 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         grille.activerDiagonaleDescendante();
-        repaint();
         nbCoups++;
         rafraichirGrille();
         verifierConditionVictoire();
+        verifierLimiteCoups(); 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        //ne devrait pas exister 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         grille.activerDiagonaleMontante();
-        repaint();
         nbCoups++;
         rafraichirGrille();
         verifierConditionVictoire();
+        verifierLimiteCoups(); 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
