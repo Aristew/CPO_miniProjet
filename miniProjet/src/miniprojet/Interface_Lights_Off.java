@@ -117,11 +117,11 @@ public void initialiserPartie() {
             grille.melangerMatriceAleatoirement(15);
             break;
         case 9: // Difficile (9x9)
-            grille.melangerMatriceAleatoirement(30);
+            grille.melangerMatriceAleatoirement(10);
             break;
         default:
             // Cas par défaut, au cas où
-            grille.melangerMatriceAleatoirement(10);
+            grille.melangerMatriceAleatoirement(15);
             break;
     }
     

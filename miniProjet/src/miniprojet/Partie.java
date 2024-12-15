@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * La classe Partie gère une session de jeu "Light Off", où le joueur doit éteindre
  * toutes les lumières d'une grille en inversant leur état via différentes actions.
- * 
+ * Codes utiles pour la partie console pas interface graphique
  * @author Ethan Ariste
  */
 public class Partie {
@@ -31,7 +31,8 @@ public class Partie {
 
     /**
      * Initialise la partie en mélangeant la grille.
-     * Par défaut, la grille est mélangée avec 10 activations aléatoires.
+     * Par défaut, la grille est mélangée avec 20 activations aléatoires.
+     * 
      */
     public void initialiserPartie() {
         grille.melangerMatriceAleatoirement(20); // Mélanger la grille avec 10 tours (modifiable)
