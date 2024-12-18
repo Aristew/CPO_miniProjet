@@ -3,8 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package miniprojet;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  * Classe Interface_Lights_Off - Fenêtre principale du jeu Lights Off.
@@ -98,6 +102,53 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
     this.setSize(new java.awt.Dimension(800, 800));
 }
    
+    public void animerMélange() {
+        // Afficher un message avant de commencer le mélange
+    JOptionPane.showMessageDialog(this, 
+            "Le mélange des cellules va commencer. Préparez-vous !", 
+            "Début du Mélange", 
+            JOptionPane.INFORMATION_MESSAGE);
+    int steps = 50;  // Nombre d'étapes pour l'animation
+    int delay = 100; // Délai entre chaque étape en millisecondes
+
+    // Sauvegarder l'état initial de la grille pour la restauration pendant l'animation
+    boolean[][] initialEtat = new boolean[grille.getNbColonnes()][grille.getNbColonnes()];
+    for (int i = 0; i < grille.getNbColonnes(); i++) {
+        for (int j = 0; j < grille.getNbColonnes(); j++) {
+            initialEtat[i][j] = grille.matriceCellules[i][j].getEtat(); // Sauvegarder l'état initial
+        }
+    }
+
+    // Créer un Timer pour animer le mélange
+    Timer timer = new Timer(delay, new ActionListener() {
+        int step = 0;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (step < steps) {
+                // Choisir une cellule aléatoire et inverser temporairement son état
+                Random rand = new Random();
+                int i = rand.nextInt(grille.getNbColonnes());
+                int j = rand.nextInt(grille.getNbColonnes());
+                grille.matriceCellules[i][j].activerCellule();
+                
+                // Redessiner la grille pour montrer les changements
+                rafraichirGrille();
+                
+                step++;
+            } else {
+                ((Timer) e.getSource()).stop();
+
+                // Appliquer le mélange réel après l'animation
+                grille.melangerMatriceAleatoirement(10); // Vous pouvez ajuster ce nombre selon la difficulté
+                rafraichirGrille(); // Rafraîchit la grille après le mélange réel
+            }
+        }
+    });
+
+    // Démarrer l'animation
+    timer.start();
+}
     
 /**
      * Initialise ou relance une partie.
@@ -119,10 +170,10 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
 
     // Demander le niveau de difficulté à chaque initialisation
     int tailleGrille = demanderNiveauDifficulte();
-
+        
     // Mettre à jour la grille en recréant les composants
     grille = new GrilleDeJeu(tailleGrille, tailleGrille);
-
+        
     // Vider les panels et recréer les boutons
     jPanel1.removeAll();
     jPanel4.removeAll();
@@ -171,23 +222,10 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         }
     }
 
-    // Mélanger la matrice selon le niveau
-    switch (tailleGrille) {
-        case 5: // Facile
-            grille.melangerMatriceAleatoirement(10);
-            break;
-        case 7: // Moyen
-            grille.melangerMatriceAleatoirement(15);
-            break;
-        case 9: // Difficile
-            grille.melangerMatriceAleatoirement(10);
-            break;
-        default:
-            grille.melangerMatriceAleatoirement(10); // Par défaut
-    }
-
+    // Lancer l'animation de mélange
+    animerMélange();
+    
     nbCoups = 0; // Réinitialise le compteur de coups
-    rafraichirGrille(); // Réactualise l'affichage
     jPanel1.revalidate(); // Revalide les composants graphiques
     jPanel4.revalidate();
     jPanel2.revalidate();
