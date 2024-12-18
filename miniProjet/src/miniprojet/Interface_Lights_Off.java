@@ -19,7 +19,7 @@ import javax.swing.Timer;
 public class Interface_Lights_Off extends javax.swing.JFrame {
     GrilleDeJeu grille;
     int nbCoups;
-    int maxCoups; // Limite du nombre de coups en fonction du niveau  
+    int maxCoups; 
     boolean premierLancement = true;
     /**
      * Méthode pour demander le niveau de difficulté au joueur via une boîte de dialogue.
@@ -27,35 +27,32 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
      * @return La taille de la grille en fonction du niveau choisi (5, 7 ou 9).
      */
     public int demanderNiveauDifficulte() {
-        // Options disponibles
         String[] options = {"Facile (5x5, max 50 coups)", "Moyen (7x7, max 20 coups)", "Difficile (9x9, max 10 coups)"};
         
-        // Boîte de dialogue pour demander le niveau de difficulté
         int choix = JOptionPane.showOptionDialog(
-                this, // Parent Component
-                "Choisissez un niveau de difficulté :", // Message
-                "Niveau de Difficulté", // Titre
-                JOptionPane.DEFAULT_OPTION, // Type d'options
-                JOptionPane.QUESTION_MESSAGE, // Icône
-                null, // Icône personnalisée (null = icône par défaut)
-                options, // Options
-                options[0] // Option par défaut
+                this, 
+                "Choisissez un niveau de difficulté :", 
+                "Niveau de Difficulté", 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                null, 
+                options, 
+                options[0] 
         );
 
-        // Renvoie le niveau choisi et la taille correspondante
         switch (choix) {
             case 0:
-                maxCoups = 50; // Facile
-                return 5; // Taille 5x5
+                maxCoups = 50; 
+                return 5; 
             case 1:
-                maxCoups = 20; // Moyen
-                return 7; // Taille 7x7
+                maxCoups = 20; 
+                return 7;
             case 2:
-                maxCoups = 10; // Difficile
-                return 9; // Taille 9x9
+                maxCoups = 10; 
+                return 9; 
             default:
-                maxCoups = 20; // Niveau moyen par défaut
-                return 7; // Taille 7x7 par défaut
+                maxCoups = 20; 
+                return 7; 
         }
     }
 
@@ -67,13 +64,12 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
     initComponents();
     jLabel1.setText("Nombre de coups : "+nbCoups);
     jLabel2.setText("Coups max : "+maxCoups);
-    // Initialisation par défaut avant le choix du niveau
-    int tailleParDefaut = 5; // Par défaut 5x5
+
+    int tailleParDefaut = 5; 
     this.grille = new GrilleDeJeu(tailleParDefaut, tailleParDefaut);
     this.nbCoups = 0;
-    this.premierLancement = true; // Définir que c'est le premier lancement
+    this.premierLancement = true; 
 
-    // Crée une grille visuelle par défaut
     jPanel1.setLayout(new java.awt.GridLayout(tailleParDefaut, 1));
     jPanel4.setLayout(new java.awt.GridLayout(1, tailleParDefaut));
     jPanel2.setLayout(new java.awt.GridLayout(tailleParDefaut, tailleParDefaut));
@@ -95,16 +91,13 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         }
     }
 
-    // Lancement de la partie après construction
     initialiserPartie(false);
-
-    // Ajuste la taille de la fenêtre
     this.setSize(new java.awt.Dimension(800, 800));
 }
    
     public void animerMélange() {
-        // Afficher un message avant de commencer le mélange
-    JOptionPane.showMessageDialog(this, 
+
+        JOptionPane.showMessageDialog(this, 
             "Le mélange des cellules va commencer. Préparez-vous !", 
             "Début du Mélange", 
             JOptionPane.INFORMATION_MESSAGE);
@@ -157,7 +150,7 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
      */
     public void initialiserPartie(boolean isRelance) {
     if (!isRelance) {
-        // Affiche un message de bienvenue seulement si ce n'est pas une relance
+
         JOptionPane.showMessageDialog(this, 
                 "Bienvenue dans Lights Off !\n\n" + 
                 "Règles du jeu :\n" +
@@ -168,27 +161,22 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // Demander le niveau de difficulté à chaque initialisation
     int tailleGrille = demanderNiveauDifficulte();
-        
-    // Mettre à jour la grille en recréant les composants
     grille = new GrilleDeJeu(tailleGrille, tailleGrille);
         
-    // Vider les panels et recréer les boutons
     jPanel1.removeAll();
     jPanel4.removeAll();
     jPanel2.removeAll();
     
-    jPanel1.setLayout(new java.awt.GridLayout(tailleGrille, 1)); // Lignes
-    jPanel4.setLayout(new java.awt.GridLayout(1, tailleGrille)); // Colonnes
-    jPanel2.setLayout(new java.awt.GridLayout(tailleGrille, tailleGrille)); // Grille
+    jPanel1.setLayout(new java.awt.GridLayout(tailleGrille, 1)); 
+    jPanel4.setLayout(new java.awt.GridLayout(1, tailleGrille)); 
+    jPanel2.setLayout(new java.awt.GridLayout(tailleGrille, tailleGrille)); 
 
-    // Ajouter les boutons pour les colonnes
     for (int i = 0; i < tailleGrille; i++) {
         JButton button = new JButton("Col " + (i + 1));
         jPanel4.add(button);
 
-        final int colonne = i; // capture de la colonne correspondante
+        final int colonne = i;
         button.addActionListener(evt -> {
             grille.activerColonneDeCellules(colonne);
             nbCoups++;
@@ -198,12 +186,11 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         });
     }
 
-    // Ajouter les boutons pour les lignes
     for (int j = 0; j < tailleGrille; j++) {
         JButton button = new JButton("Ligne " + (j + 1));
         jPanel1.add(button);
 
-        final int ligne = j; // capture de la ligne correspondante
+        final int ligne = j; 
         button.addActionListener(evt -> {
             grille.activerLigneDeCellules(ligne);
             nbCoups++;
@@ -213,20 +200,18 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         });
     }
 
-    // Ajouter les cellules graphiques
     for (int i = 0; i < tailleGrille; i++) {
         for (int j = 0; j < tailleGrille; j++) {
-            int tailleBouton = 600 / tailleGrille; // Ajuster la taille des boutons
+            int tailleBouton = 600 / tailleGrille;
             CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], tailleBouton, tailleBouton);
             jPanel2.add(button);
         }
     }
 
-    // Lancer l'animation de mélange
     animerMélange();
     
-    nbCoups = 0; // Réinitialise le compteur de coups
-    jPanel1.revalidate(); // Revalide les composants graphiques
+    nbCoups = 0; 
+    jPanel1.revalidate();
     jPanel4.revalidate();
     jPanel2.revalidate();
 }
@@ -241,7 +226,6 @@ public void verifierLimiteCoups() {
                 "Défaite",
                 JOptionPane.INFORMATION_MESSAGE);
 
-        // Proposer de relancer ou quitter
         String[] options = {"Relancer Partie", "Quitter"};
         int choix = JOptionPane.showOptionDialog(
                 this,
@@ -282,21 +266,20 @@ public void verifierLimiteCoups() {
                    JOptionPane.INFORMATION_MESSAGE);
                 String[] a = {"Relancer Partie", "Quitter "};
     
-                    // Boîte de dialogue pour quitter ou relancer
                     int b = JOptionPane.showOptionDialog(
-                this, // Parent Component
-                "Relancer une partie", // Message
-                "Jeux Light Off", // Titre
-                JOptionPane.DEFAULT_OPTION, // Type d'options
-                JOptionPane.QUESTION_MESSAGE, // Icône
-                null, // Icône personnalisée (null = icône par défaut)
+                this, 
+                "Relancer une partie",
+                "Jeux Light Off", 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                null, 
                 a,
-                a[0]); // Option par défaut
+                a[0]); 
                 if (b == 0) { 
                      initialiserPartie(true);
                 }else {
-                    this.dispose(); // Ferme la fenêtre actuelle
-                    System.exit(0); // Termine le programme
+                    this.dispose(); 
+                    System.exit(0); 
                         
                 } 
        }

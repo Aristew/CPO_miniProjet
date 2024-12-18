@@ -44,7 +44,6 @@ public class GrilleDeJeu {
         this.nbColonnes = nbColonnes;
         this.matriceCellules = new CelluleLumineuse[nbLignes][nbColonnes];
 
-        // Initialisation de chaque cellule de la matrice.
         for (int i = 0; i < nbLignes; i++) {
             for (int j = 0; j < nbColonnes; j++) {
                 matriceCellules[i][j] = new CelluleLumineuse();
@@ -89,12 +88,12 @@ public class GrilleDeJeu {
     public boolean toutesLesCellulesEteintes() {
        for (int i = 0; i < nbLignes; i++) {
            for (int j = 0; j < nbColonnes; j++) {
-               if (matriceCellules[i][j].getEtat()) { // Si une cellule est allumée
+               if (matriceCellules[i][j].getEtat()) { 
                    return false;
                }
            }
        }
-       return true; // Si aucune cellule n'est allumée
+       return true; 
    }
 
     /**
@@ -102,7 +101,7 @@ public class GrilleDeJeu {
      */
     public void activerLigneColonneOuDiagonaleAleatoire() {
         Random rand = new Random();
-    int choix = rand.nextInt(6); // 0: ligne, 1: colonne, 2: diagonale descendante, 3: diagonale montante
+    int choix = rand.nextInt(6); 
         switch (choix) {
             case 0 -> activerLigneDeCellules(rand.nextInt(nbLignes));
             case 1 -> activerColonneDeCellules(rand.nextInt(nbColonnes));
@@ -118,7 +117,7 @@ public class GrilleDeJeu {
      * @param nbTours le nombre de tours de mélange.
      */
     public void melangerMatriceAleatoirement(int nbTours) {
-        eteindreToutesLesCellules(); // Commence avec toutes les cellules éteintes
+        eteindreToutesLesCellules(); 
         for (int i = 0; i < nbTours; i++) {
             activerLigneColonneOuDiagonaleAleatoire();
         }
@@ -194,15 +193,15 @@ public class GrilleDeJeu {
     @Override
     public String toString() {
         StringBuilder affichage = new StringBuilder();
-        // Affichage des indices de colonnes
+
         affichage.append("   ");
         for (int j = 0; j < nbColonnes; j++) {
             affichage.append("| ").append(j).append(" ");
         }
         affichage.append("|\n").append("   ").append("-".repeat(nbColonnes * 4)).append("\n");
-        // Affichage des cellules avec les indices de lignes
+
         for (int i = 0; i < nbLignes; i++) {
-            affichage.append(i).append(" | "); // Indice de ligne
+            affichage.append(i).append(" | "); 
             for (int j = 0; j < nbColonnes; j++) {
                 affichage.append(matriceCellules[i][j].toString()).append(" | ");
             }

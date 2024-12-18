@@ -34,24 +34,19 @@ public class CelluleGraphique extends JButton {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        // Appeler le comportement par défaut du bouton
         super.paintComponent(g);
 
-        // Définir la couleur de fond selon l'état de la cellule
         if (celluleLumineuseAssociee.getEtat()) {
-            g.setColor(Color.YELLOW); // "X" => Allumée (jaune)
+            g.setColor(Color.YELLOW); // "X" : Allumée (jaune)
         } else {
-            g.setColor(Color.GRAY); // "O" => Éteinte (gris)
+            g.setColor(Color.GRAY); // "O" : Éteinte (gris)
         }
 
-        // Remplir le fond du bouton
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        // Dessiner la bordure
         g.setColor(Color.BLACK);
         g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-        // Ajouter le texte centré ("X" ou "O")
         g.setColor(Color.BLACK);
         
     }

@@ -25,7 +25,7 @@ public class Partie {
      * Initialise une nouvelle partie avec une grille de 7x7 cellules et un compteur de coups à zéro.
      */
     public Partie() {
-        this.grille = new GrilleDeJeu(7, 7); // Exemple : une grille de 7x7
+        this.grille = new GrilleDeJeu(7, 7); 
         this.nbCoups = 0;
     }
 
@@ -35,9 +35,9 @@ public class Partie {
      * 
      */
     public void initialiserPartie() {
-        grille.melangerMatriceAleatoirement(20); // Mélanger la grille avec 10 tours (modifiable)
+        grille.melangerMatriceAleatoirement(20);
         System.out.println("La partie est initialisee !");
-        System.out.println(grille); // Affiche l'état initial de la grille
+        System.out.println(grille);
     }
 
     /**
@@ -50,15 +50,13 @@ public class Partie {
 
         System.out.println("Bienvenue dans le jeu LightOff !");
         System.out.println("Votre objectif est d'eteindre toutes les cellules lumineuses.");
-        System.out.println(grille); // Affiche l'état initial de la grille
+        System.out.println(grille);
         
-        // Boucle principale du jeu
         while (!grille.cellulesToutesEteintes()) {
             System.out.println("Que voulez-vous faire ?");
             System.out.println("1: Activer une ligne | 2: Activer une colonne | 3: Activer une diagonale descendante | 4: Activer une diagonale montante");
             int choix = scanner.nextInt();
 
-            // Traitement des choix du joueur
             switch (choix) {
                 case 1 -> {
                     System.out.print("Entrez le numero de la ligne (0 à " + (grille.getNbLignes() - 1) + "): ");
@@ -83,15 +81,14 @@ public class Partie {
                 default -> System.out.println("Choix invalide. Veuillez reessayer.");
             }
 
-            nbCoups++; // Incrémenter le compteur de coups
+            nbCoups++; 
             System.out.println("Grille mise à jour :");
-            System.out.println(grille); // Afficher la grille mise à jour
+            System.out.println(grille); 
             System.out.println("Nombre de coups joues : " + nbCoups);
         }
 
-        // Fin de la partie
         System.out.println("Felicitations, vous avez eteint toutes les cellules !");
         System.out.println("Partie terminee en " + nbCoups + " coups.");
-        scanner.close(); // Fermer le scanner pour libérer les ressources
+        scanner.close(); 
     }
 }
