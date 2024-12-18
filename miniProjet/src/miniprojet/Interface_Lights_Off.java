@@ -7,16 +7,24 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ethan
+ * Classe Interface_Lights_Off - Fenêtre principale du jeu Lights Off.
+ * Cette classe gère l'interface graphique et les interactions utilisateur.
+ * 
+ * @author ethan ariste
  */
 public class Interface_Lights_Off extends javax.swing.JFrame {
     GrilleDeJeu grille;
     int nbCoups;
     int maxCoups; // Limite du nombre de coups en fonction du niveau
-    int nbLignes;  // Ajoutez cette variable
-    int nbColonnes;  // Ajoutez cette variable
+    int nbLignes;  
+    int nbColonnes;  
+    boolean premierLancement = true;
     
+    /**
+     * Méthode pour demander le niveau de difficulté au joueur via une boîte de dialogue.
+     * 
+     * @return La taille de la grille en fonction du niveau choisi (5, 7 ou 9).
+     */
     public int demanderNiveauDifficulte() {
         // Options disponibles
         String[] options = {"Facile (5x5, max 50 coups)", "Moyen (7x7, max 20 coups)", "Difficile (9x9, max 10 coups)"};
@@ -50,88 +58,146 @@ public class Interface_Lights_Off extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Constructeur de la classe Interface_Lights_Off.
+     * Initialise l'interface graphique et démarre une première partie.
+     */
     public Interface_Lights_Off() {
-        initComponents();
-        nbLignes = demanderNiveauDifficulte(); // Demander uniquement le niveau, taille incluse
-    nbColonnes = nbLignes;  // La grille est carrée, donc nbColonnes = nbLignes
-    jPanel1.setLayout(new java.awt.GridLayout(nbLignes, 1)); // Ajuste le layout des boutons de lignes
-    jPanel4.setLayout(new java.awt.GridLayout(1, nbColonnes));
-    this.grille = new GrilleDeJeu(nbLignes, nbColonnes);
+    initComponents();
+
+    // Initialisation par défaut avant le choix du niveau
+    int tailleParDefaut = 5; // Par défaut 5x5
+    this.grille = new GrilleDeJeu(tailleParDefaut, tailleParDefaut);
     this.nbCoups = 0;
-    jPanel2.setLayout(new java.awt.GridLayout(nbLignes, nbColonnes));
-       
-        // Ajouter les boutons pour les colonnes
-        for (int i = 0; i < nbColonnes; i++) {
-            JButton button = new JButton("" + i);
-            jPanel4.add(button);
+    this.premierLancement = true; // Définir que c'est le premier lancement
 
-            final int colonne = i; // capture de la colonne correspondante
-            button.addActionListener(evt -> {
-                grille.activerColonneDeCellules(colonne);
-                nbCoups++;
-                rafraichirGrille();
-                verifierConditionVictoire();
-                verifierLimiteCoups(); // Vérification ajoutée ici
+    // Crée une grille visuelle par défaut
+    jPanel1.setLayout(new java.awt.GridLayout(tailleParDefaut, 1));
+    jPanel4.setLayout(new java.awt.GridLayout(1, tailleParDefaut));
+    jPanel2.setLayout(new java.awt.GridLayout(tailleParDefaut, tailleParDefaut));
+    
+    for (int i = 0; i < tailleParDefaut; i++) {
+        JButton button = new JButton("" + i);
+        jPanel4.add(button);
+    }
 
-            });
+    for (int j = 0; j < tailleParDefaut; j++) {
+        JButton button = new JButton("" + j);
+        jPanel1.add(button);
+    }
+
+    for (int i = 0; i < tailleParDefaut; i++) {
+        for (int j = 0; j < tailleParDefaut; j++) {
+            CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], 600 / tailleParDefaut, 600 / tailleParDefaut);
+            jPanel2.add(button);
         }
+    }
 
-        // Ajouter les boutons pour les lignes
-        for (int j = 0; j < nbLignes; j++) {
-            JButton button = new JButton("" + j);
-            jPanel1.add(button);
+    // Lancement de la partie après construction
+    initialiserPartie(false);
 
-            final int ligne = j; // capture de la ligne correspondante
-            button.addActionListener(evt -> {
-                grille.activerLigneDeCellules(ligne);
-                nbCoups++;
-                rafraichirGrille();
-                verifierConditionVictoire();
-                verifierLimiteCoups(); // Vérification ajoutée ici
+    // Ajuste la taille de la fenêtre
+    this.setSize(new java.awt.Dimension(800, 800));
+}
+   
+    
+/**
+     * Initialise ou relance une partie.
+     * 
+     * @param isRelance Indique si c'est une relance (true) ou un premier démarrage (false).
+     */
+    public void initialiserPartie(boolean isRelance) {
+    if (!isRelance) {
+        // Affiche un message de bienvenue seulement si ce n'est pas une relance
+        JOptionPane.showMessageDialog(this, 
+                "Bienvenue dans Lights Off !\n\n" + 
+                "Règles du jeu :\n" +
+                "- Toutes les cellules doivent être éteintes pour gagner.\n" +
+                "- Vous pouvez cliquer sur une ligne, une colonne, ou une diagonale pour modifier l'état des cellules.\n" +
+                "- Essayez de résoudre le puzzle en un minimum de coups, sans dépasser la limite !", 
+                "Bienvenue", 
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 
-            });
-        }
+    // Demander le niveau de difficulté à chaque initialisation
+    int tailleGrille = demanderNiveauDifficulte();
 
-        // Ajouter les cellules graphiques
-    for (int i = 0; i < nbLignes; i++) {
-        for (int j = 0; j < nbColonnes; j++) {
-            int tailleBouton = 600 / nbLignes; // Ajuster en fonction de l'espace disponible
+    // Mettre à jour la grille en recréant les composants
+    grille = new GrilleDeJeu(tailleGrille, tailleGrille);
+
+    // Vider les panels et recréer les boutons
+    jPanel1.removeAll();
+    jPanel4.removeAll();
+    jPanel2.removeAll();
+    
+    jPanel1.setLayout(new java.awt.GridLayout(tailleGrille, 1)); // Lignes
+    jPanel4.setLayout(new java.awt.GridLayout(1, tailleGrille)); // Colonnes
+    jPanel2.setLayout(new java.awt.GridLayout(tailleGrille, tailleGrille)); // Grille
+
+    // Ajouter les boutons pour les colonnes
+    for (int i = 0; i < tailleGrille; i++) {
+        JButton button = new JButton("Col " + (i + 1));
+        jPanel4.add(button);
+
+        final int colonne = i; // capture de la colonne correspondante
+        button.addActionListener(evt -> {
+            grille.activerColonneDeCellules(colonne);
+            nbCoups++;
+            rafraichirGrille();
+            verifierConditionVictoire();
+            verifierLimiteCoups();
+        });
+    }
+
+    // Ajouter les boutons pour les lignes
+    for (int j = 0; j < tailleGrille; j++) {
+        JButton button = new JButton("Ligne " + (j + 1));
+        jPanel1.add(button);
+
+        final int ligne = j; // capture de la ligne correspondante
+        button.addActionListener(evt -> {
+            grille.activerLigneDeCellules(ligne);
+            nbCoups++;
+            rafraichirGrille();
+            verifierConditionVictoire();
+            verifierLimiteCoups();
+        });
+    }
+
+    // Ajouter les cellules graphiques
+    for (int i = 0; i < tailleGrille; i++) {
+        for (int j = 0; j < tailleGrille; j++) {
+            int tailleBouton = 600 / tailleGrille; // Ajuster la taille des boutons
             CelluleGraphique button = new CelluleGraphique(grille.matriceCellules[i][j], tailleBouton, tailleBouton);
             jPanel2.add(button);
         }
     }
-    
-        initialiserPartie();
-        this.setSize(new java.awt.Dimension(800, 800)); // Ajuster la taille totale si nécessaire
-    }
-   
-    
-public void initialiserPartie() {
-    grille.eteindreToutesLesCellules();
-    
-    switch (nbLignes) {
-        case 5: // Facile (5x5)
-            grille.melangerMatriceAleatoirement(5); // Moins de mélange pour faciliter
+
+    // Mélanger la matrice selon le niveau
+    switch (tailleGrille) {
+        case 5: // Facile
+            grille.melangerMatriceAleatoirement(5);
             break;
-        case 7: // Moyen (7x7)
+        case 7: // Moyen
             grille.melangerMatriceAleatoirement(15);
             break;
-        case 9: // Difficile (9x9)
+        case 9: // Difficile
             grille.melangerMatriceAleatoirement(30);
             break;
         default:
-            // Cas par défaut, au cas où
-            grille.melangerMatriceAleatoirement(10);
-            break;
+            grille.melangerMatriceAleatoirement(10); // Par défaut
     }
-    
-    nbCoups = 0;
-    rafraichirGrille();
+
+    nbCoups = 0; // Réinitialise le compteur de coups
+    rafraichirGrille(); // Réactualise l'affichage
+    jPanel1.revalidate(); // Revalide les composants graphiques
+    jPanel4.revalidate();
+    jPanel2.revalidate();
 }
 
 /**
- * Vérifie si le nombre de coups a dépassé la limite autorisée.
- */
+     * Vérifie si la limite de coups a été atteinte.
+     */
 public void verifierLimiteCoups() {
     if (nbCoups >= maxCoups) {
         JOptionPane.showMessageDialog(this,
@@ -152,7 +218,7 @@ public void verifierLimiteCoups() {
                 options[0]);
 
         if (choix == 0) {
-            initialiserPartie();
+            initialiserPartie(true);
         } else {
             this.dispose();
             System.exit(0);
@@ -189,7 +255,7 @@ public void verifierLimiteCoups() {
                 a,
                 a[0]); // Option par défaut
                 if (b == 0) { 
-                     initialiserPartie();
+                     initialiserPartie(true);
                 }else {
                     this.dispose(); // Ferme la fenêtre actuelle
                     System.exit(0); // Termine le programme
